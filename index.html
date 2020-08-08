@@ -74,31 +74,104 @@
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/08/hello-world/">老吴搞前端啊</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+        <h3 id="要深入-JavaScript，你需要掌握这-36-个概念"><a href="#要深入-JavaScript，你需要掌握这-36-个概念" class="headerlink" title="要深入 JavaScript，你需要掌握这 36 个概念"></a>要深入 JavaScript，你需要掌握这 36 个概念</h3><h3 id="1-调用堆栈执行"><a href="#1-调用堆栈执行" class="headerlink" title="1.调用堆栈执行"></a>1.调用堆栈执行</h3><p>我们都知道堆栈溢出，但是你知道堆栈溢出是由什么原因导致的吗? 堆栈溢出是与调用堆栈一些操作错误相关联的。</p>
+<p>理解了调用堆栈，你就会清楚解像是JS 这们的编程语言是如何执行的。</p>
+<h3 id="2-原始数据类型"><a href="#2-原始数据类型" class="headerlink" title="2. 原始数据类型"></a>2. 原始数据类型</h3><p>const foo = “bar”;<br>foo.length; // 3<br>foo === “bar”; // true<br>这里，我们将值bar分配给常量foo时，它属于原始类型string。 这个每个人都知道。 但是各位少侠想没想过一个问题，string是基本数据类型，怎么能调用方法了？</p>
+<p>奇怪吗? 不。</p>
+<p>这个特性称为自动装箱。每当读取一个基本类型的时候，JS 后台就会创建一个对应的基本包装类型对象，从而让我们能够调用一些方法来操作这些数据。</p>
+<p>还是拿上面的例子开始：</p>
+<p>const foo = “bar”;<br>foo.length; // 3<br>foo === “bar”; // true<br>变量 foo 是一个基本类型值，它不是对象，它不应该有方法。但是 JS 内部为我们完成了一系列处理（即装箱），使得它能够调用方法,实现的机制如下：</p>
+<p>创建String类型的一个实例<br>在实例上调用指定的方法<br>销毁这个实例<br>const foo  = new String(“bar”);<br>foo.length<br>foo === ‘bar’<br>foo = null<br>通过对原始数据类型有深入的了解，我们就应该知道这些“怪异”情况是如何发生的，以及它们背后的逻辑原因。</p>
+<h3 id="3-值类型和引用类型"><a href="#3-值类型和引用类型" class="headerlink" title="3.值类型和引用类型"></a>3.值类型和引用类型</h3><p>最近，我对“引用传递” 在 JS 是怎么工作的感到困惑。 尽管我知道 C 和 Java 等语言中有“按引用传递”和“按值传递”的概念，但是我不确定它在 JS 中如何工作。</p>
+<p>你是否知道分配给 JS 中非原始值的变量对该值的引用？ 引用指向存储值的内存位置。。</p>
+<p>var arr1 = [1,2,3];<br>var arr2 = arr1;<br>arr2.push(10);<br>console.log(arr2);<br>//[1, 2, 3, 10]<br>console.log(arr1);<br>//[1, 2, 3, 10]<br>上面的示例中可以看到，对arr2所做的任何修改也将体现在arr1上。 这是因为它们仅保存值对应的内存地址的引用，而非值本身。</p>
+<p>通过了解值类型和引用类型的概念，你就会更好地了解如何为变量分配值和内存引用。</p>
+<h3 id="4-强制类型转换"><a href="#4-强制类型转换" class="headerlink" title="4. 强制类型转换"></a>4. 强制类型转换</h3><p>这个概念主要解释了隐式和显式类型强制之间的区别。 这是前端开发中对 JS 迷惑少数几个领域之一。 对于隐式强制转换的概念尤其如此，因为它对不同的数据类型以不同的方式表现。</p>
+<p>这是 JS 面试中最常被考的。</p>
+<p>Number(‘789’)   // 显式<br>+’789’          // 隐式<br>789 != ‘456’    // 隐式<br>9 &gt; ‘5’         // 隐式<br>10/null          // 隐式<br>true | 0        // 隐式<br>掌握了类型显隐转换，恭喜你对 JS 了解就进一步了。</p>
+<h3 id="5-比较运算符号-和-typeof-运算符"><a href="#5-比较运算符号-和-typeof-运算符" class="headerlink" title="5. 比较运算符号 和 typeof 运算符"></a>5. 比较运算符号 和 typeof 运算符</h3><p>双等与三等，它们在大多数情况下在表面上看起来相同并且给出相同的结果，但是，它们有时候可能会给带来意想不到的错误。</p>
+<p>为了了解这两亲兄弟的区别，我们可以借助 typeof 来查看被比较的值的类型。</p>
+<p>typeof 3 // “number”<br>typeof “abc” // “string”<br>typeof {} // “object”<br>typeof true // “boolean”<br>typeof undefined // “undefined”<br>typeof function(){} // “function”<br>typeof [] // “object”<br>typeof null // “object”</p>
+<h3 id="6-JavaScript-作用域"><a href="#6-JavaScript-作用域" class="headerlink" title="6. JavaScript 作用域"></a>6. JavaScript 作用域</h3><p>作用域是 JS 中一个很重要的尴尬，JS 也一直在不断完善自己的作用域。 根据Wissam的说法，作用域的简单定义是，编译器在需要时查找变量和函数。</p>
+<p>了解作用域有助于我们有效地使用JavaScript。 我们还需要了解全局作用域以及块和函数作用域，也称为词法作用域。 JS 作用域一开始接触会感到很困惑，但是一旦你了解了事情的幕后原理，使用它就会非常令人兴奋。</p>
+<h3 id="7-语句和声明"><a href="#7-语句和声明" class="headerlink" title="7. 语句和声明"></a>7. 语句和声明</h3><p>JavaScript 程序是一系列可执行语句的集合。所谓语句，就是一个可执行的单元，通过该语句的执行，从而实现某种功能。通常一条语句占一行，并以分号结束。默认情况下，JavaScript 解释器按照语句的编写流程依次执行。如果要改变这种默认执行顺序，需要使用判断、循环等流程控制语句。</p>
+<p>我们应该要知道 语句和声明 的区别，这对我们全面了解 JS 是很有帮助的。</p>
+<h3 id="8-立即调用的函数表达式和模块"><a href="#8-立即调用的函数表达式和模块" class="headerlink" title="8. 立即调用的函数表达式和模块"></a>8. 立即调用的函数表达式和模块</h3><p>IIFE: Immediately Invoked Function Expression，意为立即调用的函数表达式，也就是说，声明函数的同时立即调用这个函数。它主要用于避免污染全局作用域。 后来，引入了ES6模块，为避免全局作用域的污染提供了一种标准方法，尽管有人认为它不是IIFE的直接替代。</p>
+<p>通过理解IIFE和模块，你可以构建较少由于全局空间处理不当而导致的错误的应用程序。当然，使用模块，我们还可以做很多事情。</p>
+<h3 id="9-消息队列和事件循环"><a href="#9-消息队列和事件循环" class="headerlink" title="9.消息队列和事件循环"></a>9.消息队列和事件循环</h3><p>正如MDN文档所说，JavaScript 有一个基于事件循环的并发模型，事件循环负责执行代码、收集和处理事件以及执行队列中的子任务。这个模型与其它语言中的模型截然不同，比如 C 和 Java。</p>
+<p>在并发模型中，消息队列用于处理最早的消息。 只要有事件发生，便会加入消息队列中。通过理解这些概念，你可以更好地理解JS在底层是如何工作的，以及知道你的代码是如果运行的。</p>
+<h3 id="10-时间间隔"><a href="#10-时间间隔" class="headerlink" title="10.时间间隔"></a>10.时间间隔</h3><p>想在 JS 有计划的调用的函数，可以使用下面两个函数：</p>
+<p>setTimeout 允许我们在特定时间间隔后运行一次函数。<br>setInterval允许我们重复运行一个函数，从一个特定的时间间隔开始，然后以该间隔连续重复。<br>这些与前面的消息队列和事件处理程序的概念有些关联。因此，通过理解时间间隔方法，我们可以理解它们是如何工作的，并在我们的用例中有效地使用它们。</p>
+<h3 id="11-JS-引擎"><a href="#11-JS-引擎" class="headerlink" title="11.JS 引擎"></a>11.JS 引擎</h3><p>JavaScript引擎是执行 JS 代码的计算机程序或解释器。JS 引擎可以用多种语言编写。例如，驱动Chrome浏览器的V8引擎是用 c++ 编写的，而驱动Firefox浏览器的SpiderMonkey引擎是用 C 和 c++编 写的。</p>
+<p>要想编写高效的代码，你必须了解所使用的 JS 引擎。使用webview的移动开发人员要特别注意这一点。</p>
+<h3 id="12-按位运算"><a href="#12-按位运算" class="headerlink" title="12.按位运算"></a>12.按位运算</h3><p>按位运算操作将值视为位（0和1），而不是十进制，十六进制或八进制数字。 按位运算符对此类二进制表示形式执行其操作，但是它们返回标准JavaScript数值。</p>
+<p>通常，很少会在代码中使用这些操作，但是它们确实有一些用例。 比如，可以使用它们来查找偶数和奇数值，颜色转换，颜色提取等等。</p>
+<p>通过全面了解这些按位操作，您可以很好地使用 WebGL 之类的技术，因为它包含许多像素操作。</p>
+<h3 id="13-DOM-和布局树"><a href="#13-DOM-和布局树" class="headerlink" title="13. DOM 和布局树"></a>13. DOM 和布局树</h3><p>我们大多数人都听说过文档对象模型（DOM），但只有少数人对此有深入的了解。 你知道在浏览器中看到的不是DOM吗？ 而是渲染树，它实际上是DOM和CSSOM的组合。</p>
+<p>通过理解DOM的工作方式、结构以及页面的渲染方式，我们就能够在 JS 的帮助下动态地操作web页面。这对于确保我们的应用程序具有高标准的性能尤为必要。</p>
+<p>14.类和工厂<br>JavaScript 不是一种面向对象的语言。 但是，为了模仿OOP属性，使用了构造函数。 根据Tania的说法，“ JavaScript中的类实际上并没有提供其他功能，只是在原型和继承上提供语法糖，因为它们提供了更简洁，更优雅的语法。 由于其他编程语言都使用类，因此 JS 中的类语法使开发人员在各种语言之间移动变得更加简单。”</p>
+<p>工厂函数是不是返回对象的类或构造函数的函数。 根据JS专家Eric Elliot的说法，“在JavaScript中，任何函数都可以返回一个新对象。 如果它不是构造函数或类，则称为工厂函数。”</p>
+<p>当开始开发规模更大的应用程序时，理解这两个概念是很有必要的。</p>
+<p>15.this 关键字和 apply,call及bind方法<br>就我个人而言，我认为对于一个JS开发人员来说，理解this 关键字是至关重要的。如果你不能正确地理解它，将来你开发的项目也会经常遇到this相关的问题。</p>
+<p>如果你对this关键字很清楚，则可以看看apply，call和bind方法，这些都可以解决 this 指向引发的问题。</p>
+<h3 id="16-构造函数和-“instanceOf”-运算符"><a href="#16-构造函数和-“instanceOf”-运算符" class="headerlink" title="16.构造函数和 “instanceOf” 运算符"></a>16.构造函数和 “instanceOf” 运算符</h3><p>构造函数就像常规函数一样。 但是它们有很多差异，函数名称以大写字母开头，并且只能由new运算符执行。 具有OOP开发经验的程序员会熟悉new关键字。</p>
+<p>为了正确识别对象的类型，我们使用instanceOf运算符。 简单来说，它检查一个对象是否是另一个对象的实例。</p>
+<p>这才助于你理解对象如何相互继承，继承是通过原型实现的。</p>
+<h3 id="17-原型"><a href="#17-原型" class="headerlink" title="17.原型"></a>17.原型</h3><p>这是 JS 中最令人困惑的概念之一，即使对于有十年经验的人来说也是如此。</p>
+<p>JavaScript中的原型是在对象之间共享通用功能的机制。 JavaScript中几乎所有对象都是Object的实例。 对象会从Object.prototype继承所有属性和方法。</p>
+<p>简单来说，原型是 JS 对象从中继承方法和属性的对象。</p>
+<p>理解了原型，你就可以构建高效，快速的应用程序。</p>
+<h3 id="18-使用-new，Object-create-和-Object-assign-创建对象"><a href="#18-使用-new，Object-create-和-Object-assign-创建对象" class="headerlink" title="18. 使用 new，Object.create 和 Object.assign 创建对象"></a>18. 使用 new，Object.create 和 Object.assign 创建对象</h3><p>创建对象有很多方法。 但是，大都会选择Object.create方法而不是new关键字。这是有原因的，因为 使用Object.create方法时，可以将现有对象用作新创建的对象的原型。 这样就可以重用现有对象的属性和功能，有点像OOP中的继承概念。</p>
+<p>使用Object.assign方法时，可以将可枚举的自身属性从一个或多个源对象复制到目标对象。 在这种情况下，目标对象的原型不包含源对象的属性。 这是这两种方法之间的主要区别。</p>
+<p>通过了解对象创建的这三种方式，可以根据实际情况适当地使用它们，以创建效率更高的程序。</p>
+<h3 id="19-map-filter-reduce-方法"><a href="#19-map-filter-reduce-方法" class="headerlink" title="19.map,filter, reduce 方法"></a>19.map,filter, reduce 方法</h3><p>当涉及到数组操作时，这三种方法非常有用。 它们可以在Array原型中找到。</p>
+<p>如果你有一个数组，并且想对每个元素做一些事情，那么您可以使用map方法。</p>
+<p>如果你有一个数组，并且想通过某些条件来过滤一些值时，则可以使用filter方法。</p>
+<p>reduce() 方法对数组中的每个元素执行一个由你提供的reducer函数(升序执行)，将其结果汇总为单个返回值。</p>
+<p>典型的例子就是对数组的所有元素进行求和：</p>
+<p>let numbers = [1,2,3,4,5,6]<br>const reduced = numbers.reduce( (accumulator, currentValue) =&gt; accumulator + currentValue )<br>console.log(reduced)<br>// 21<br>请注意，上述三种方法不会更改原始数组的值。</p>
+<h3 id="20-纯函数，副作用和状态变更"><a href="#20-纯函数，副作用和状态变更" class="headerlink" title="20.纯函数，副作用和状态变更"></a>20.纯函数，副作用和状态变更</h3><p>这三个概念对于 JS 开发人员而言非常重要，状态变更对于使用 React 的开发人员尤其重要。</p>
+<p>纯函数指的是一个函数的返回结果只依赖于它的参数，并且在执行过程里面没有副作用。</p>
+<p>函数副作用是指当调用函数时，除了返回函数值之外，还对主调用函数产生附加的影响。副作用的函数不仅仅只是返回了一个值，而且还做了其他的事情，比如：</p>
+<p>修改了一个变量<br>直接修改数据结构<br>设置一个对象的成员<br>抛出一个异常或以一个错误终止<br>打印到终端或读取用户输入<br>读取或写入一个文件<br>在屏幕上画图<br>状态变更是指你更改变量值的地方。 如果你对变量进行更改，则可能会影响到其他函数，具体取决于变量被更改之前的值。 在React环境中，建议我不要改变状态。</p>
+<h3 id="21-闭包"><a href="#21-闭包" class="headerlink" title="21. 闭包"></a>21. 闭包</h3><p>闭包很难理解。 但是一旦理解，你会觉得 JS 其实也挺好的。 在线上有足够的资源。 你花足够的时间学习闭包，掌握理解它并不难。</p>
+<p>使用闭包可以访问内部作用域中外部作用域的作用域。 每次创建函数时都会在函数创建时创建JavaScript闭包。</p>
+<h3 id="22-高阶函数"><a href="#22-高阶函数" class="headerlink" title="22. 高阶函数"></a>22. 高阶函数</h3><p>高阶函数是将其他函数作为参数或返回结果的函数。 你可以创建仅负责一项任务的较小函数，然后在这些较小函数的帮助下构造复杂函数。 这也会提交代码的可重用性。</p>
+<h3 id="23-递归"><a href="#23-递归" class="headerlink" title="23.递归"></a>23.递归</h3><p>递归是所有编程语言中的一个常见概念。简单地说，递归就是把大问题分解成小问题，然后解决小问题一种思路。</p>
+<p>尽管递归可能是一个让你头疼的令人困惑的概念，但是通过大量的练习，从一些小问题开始，你可以更好地理解它。</p>
+<h3 id="24-集合与生成器"><a href="#24-集合与生成器" class="headerlink" title="24.集合与生成器"></a>24.集合与生成器</h3><p>ES6 中新引入了集合和生成器。 新引入的集合有Map，Set，WeakSet和WeakMap。 这些集合为我们提供一些很方便的操作。 了解它们的方式至关重要，尤其是对于现代JavaScript。</p>
+<p>生成器有时很难理解，特别是对于初学者。 生成器允许我们编写代码函数，从而能够暂停和重新启动函数，而不会阻止其他代码的执行，这在JavaScript中是很不常见的。</p>
+<h3 id="25-Promise"><a href="#25-Promise" class="headerlink" title="25. Promise"></a>25. Promise</h3><p>Jecelyn对 Promises 的解释如下：“想象一下你是个孩子。 你妈妈向你保证，她下周会买一部新手机给你。”</p>
+<p>你要到下周才能知道你是否能屋那部手机。你的妈妈要么真的给你买了一个全新的手机，要么因为不开心就不给你买。</p>
+<p>这算是一个承诺。 一个 Promise 有三个状态，分别是：</p>
+<p>Pending:你不知道你是否会能得到那个电话<br>Fulfilled：妈妈高兴了，给你买了一部新手机<br>Rejected：老妈不开心了，就是不给买，爱咋滴就咋滳</p>
+<h3 id="26-异步编程"><a href="#26-异步编程" class="headerlink" title="26.异步编程"></a>26.异步编程</h3><p>要了解什么是异步编程，首先要先积善成德什么是同步编程。 同步编程是线程阻塞的，由于 JS 是单线程的，因此代码将逐行执行。</p>
+<p>但是使用异步代码，你可以执行一些比较耗时的任务。 当你必须执行花费很长时间才能完成的多个任务时，此功能特别有用。 但是在某些情况下，即使是需要执行很长时间的代码，也可能需要用同步的方式，这时就可以使用async/await。</p>
+<h3 id="27-ES6-箭头函数"><a href="#27-ES6-箭头函数" class="headerlink" title="27. ES6 箭头函数"></a>27. ES6 箭头函数</h3><p>箭头函数是 ES6 的新增功能，是常规函数的语法替代。 区别在于箭头函数不绑定到this，arguments，super或new.target关键字。 这使得箭头函数在某些情况下是一个不错的选择，而在另一些情况下则是一个非常糟糕的选择。</p>
+<p>因此，不要一上来就使用箭头函数。 需要根据你实际情况还使用它们。</p>
+<h3 id="28-数据结构"><a href="#28-数据结构" class="headerlink" title="28. 数据结构"></a>28. 数据结构</h3><p>无论使用哪种编程语言，数据结构都是开发人员应具备的基本知识之一。</p>
+<p>糟糕的程序员担心代码，好的程序员担心数据结构和它们之间的关系。<br>数据结构方面，你应该了解链表，队列，堆栈，树，图和哈希表。</p>
+<h3 id="29-时间复杂度"><a href="#29-时间复杂度" class="headerlink" title="29.时间复杂度"></a>29.时间复杂度</h3><p>不管编程语言如何，时间复杂度分析也是计算机编程的另一个基础。 为了构建更好的应用程序，你应该编写更好的解决方案。 为此，你需要了解时间复杂度的概念。 有时也称为BigO。</p>
+<h3 id="30-算法"><a href="#30-算法" class="headerlink" title="30.算法"></a>30.算法</h3><p>这也是在计算机基础课程中首先要教的内容之一。 简而言之，算法是逐步实现目标的过程。 程序员应该能够从算法的角度看任何问题。</p>
+<p>尽管有成千上万个用例的大量算法，但是下面两个很常见：</p>
+<p>查找<br>排序<br>这两个用例对程序员来说是非常常见的，至少应该了解实现它们的已知算法。没有固定的规则规定你应该使用这些算法之一，但是这些算法在性能方面是众所周知的，并且有很好的文档证明。</p>
+<p>你甚至可以创建自己的算法，并将其介绍给世界。如果它比目前已知的算法更好，你可能会成为下一个编程明星</p>
+<h3 id="31-继承，多态和代码重用"><a href="#31-继承，多态和代码重用" class="headerlink" title="31.继承，多态和代码重用"></a>31.继承，多态和代码重用</h3><p>JS 中的继承可用于原型来实现。 这是因为 JS 是非OOP语言。 但是 JS 通过提供原型继承来提供OOP的某些功能。</p>
+<p>多态是对象、变量或函数可以采用多种形式的概念。在 JS 中，要看到多态的效果有点困难，因为在静态类型的系统中，多态的经典类型更明显。</p>
+<p>以上两个概念都可以帮助我们在 JS 中实现更好代码重用。</p>
+<h3 id="32-设计模式"><a href="#32-设计模式" class="headerlink" title="32.设计模式"></a>32.设计模式</h3><p>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案。这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。</p>
+<h3 id="33-函数式编程"><a href="#33-函数式编程" class="headerlink" title="33. 函数式编程"></a>33. 函数式编程</h3><p>函数式编程是一种编程范式，是一种构建计算机程序结构和元素的风格，它把计算看作是对数学函数的评估，避免了状态的变化和数据的可变。</p>
+<p>你需要掌握函数式编程的几个概念：</p>
+<p>纯函数<br>不可变<br>引用透明性<br>高阶函数</p>
+<h3 id="34-简洁代码的原则"><a href="#34-简洁代码的原则" class="headerlink" title="34. 简洁代码的原则"></a>34. 简洁代码的原则</h3><p>无论使用哪种编程语言，这都是每个开发人员都应该掌握的一项基本技能。 每种编程语言都有一套单独的良好实践。 尽管这些“良好”做法是主观的，并且在工作场所之间存在差异，但有些惯例被认为是“良好”。</p>
+<p>通过遵循这些代码原则，可以确保每个人都可以阅读和维护你的代码。 这也会帮助你和你的团队在应用程序开发过程中顺利合作。</p>
+<h3 id="35-解构赋值"><a href="#35-解构赋值" class="headerlink" title="35. 解构赋值"></a>35. 解构赋值</h3><p>在ES6中引入了解构赋值操作符，它非常有用。对于相同的用例，它们比以前的实现更简单、更有效。</p>
+<h3 id="36-ES2020新特性"><a href="#36-ES2020新特性" class="headerlink" title="36. ES2020新特性"></a>36. ES2020新特性</h3><p>编程的优点之一是，如果你不去不断学习，你永远不会成为该领域专家。 编程语言会随着时间不断发展，因为每个主要版本中都引入了其他新的功能。</p>
+<p>这也说明了你对某个概念的专业知识很可能在将来的10年后会过期，因为会有更好的替代版本与版本更新一起发布。 对于任何编程语言，这都是非常常见的情况。</p>
+<p>ES202 0发布了几个新特性，包括可选链接、空值合并、动态导入等等。你必须学习这些新概念，以跟上快速变化的It世界。</p>
+<p>掌握一门语言需要多年的经验和时间，但是知道要掌握什么会让事情变得更容易，希望这 36 个概念能对你有所帮助。</p>
 
       
     </div>
@@ -144,7 +217,7 @@
       <ul>
         
           <li>
-            <a href="/2020/08/08/hello-world/">老吴搞前端啊</a>
+            <a href="/2020/08/08/hello-world/">(no title)</a>
           </li>
         
       </ul>
