@@ -1,24 +1,41 @@
-name: Build and Deploy
-on: 【push】
+name:
+on:
+  push:
+    branches:
+      - master
+
 jobs:
-build-and-deploy:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout 🛎️
-uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
-with:
-persist-credentials: false
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    # 此处每一个name对应着一个Action，具体执行逻辑已被提供者进行封装，暴露给用户的只是需要用户需要关心和配置的
+    # 从master上获取最新代码
+    - name: Checkout Github Action
+      uses: actions/checkout@master
+    
+    # 我们的站点使用Hugo框架进行构建，此处是下载相关环境
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v2
+      with:
+        hugo-version: '0.65.3'
+    
+    # 为了将资源部署到云服务器，此处下载一个ssh传资料的工具
+    - name: Setup sshpass
+      run: sudo apt-get install sshpass
 
-- name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
-run: |
-npm install
-npm run build
-env:
-CI: false
+    # 进行前端资源的构建
+    - name: Build
+      run: hugo --minify -d nebula-website
 
-- name: Deploy 🚀
-uses: JamesIves/github-pages-deploy-action@releases/v3
-with:
-GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-BRANCH: myblog # The branch the action should deploy to.
-FOLDER: public # The folder the action should deploy.
+    # 部署
+    - name: Deploy
+      uses: garygrossgarten/github-action-scp@release
+      with:
+          local: nebula-website
+          remote: /home/vesoft/nebula-website
+          # 涉及偏安全隐私的信息，不要明文暴露在此文件中，因为repo很可能是公开的，会被所有人看见
+          # ${{ ... }} 会应用你在对应项目设置中，配置的对应serets的键值信息，从而保护私密信息不被看到
+          host: ${{ secrets.HOST }}
+          username: vesoft
+          password: ${{ secrets.PASSWORD }}
+          concurrency: 20
